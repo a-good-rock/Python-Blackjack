@@ -3,8 +3,7 @@ import random
 import sys
 from IPython.display import clear_output
 
-# Creates Player class to keep track of each players cards, chips bet-amount,
-#along with associated functions that affect these attributes
+# Creates Player class to keep track of and easily manipulate player attributes
 class Player(object):
 
   def __init__(self, name, cards, chips, bet):
