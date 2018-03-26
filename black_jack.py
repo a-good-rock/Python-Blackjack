@@ -1,9 +1,9 @@
-import time #time.sleep used frequently to slow gameplay to prevent rapid-fire text
+import time #time.sleep used frequently to prevent rapid-fire text
 import random
 import sys
 from IPython.display import clear_output
 
-# Creates Player class to keep track of and easily manipulate player attributes
+# Creates Player class
 class Player(object):
 
   def __init__(self, name, cards, chips, bet):
@@ -12,8 +12,7 @@ class Player(object):
     self.chips = chips
     self.bet = bet
 
-#Asks player to place bet. Sys.stdout.write  used to space out the timing of text-appearance
-#for aesthetic reasons. Input of bet_question used to check if player is able to bet the entered
+#Asks player to place bet. Input of bet_question used to check if player is able to bet the entered
 #amount, and to increase self.bet and decrease self.chip attributes.
   def place_bet(self):
     sys.stdout.write (self.name + ", chips to spend: "); time.sleep(2)
@@ -65,15 +64,13 @@ class Player(object):
       return deck.card_value(self) > 21
 
 #iterates through asking player to hit, stand, fold or double-down until they choose to stand or bust.
-#player can only fold or double-down while they have first hand.  If player attempts to double-down again,
-#double_down counter prevents player from doubling again.
+#player can only fold or double-down while they have first hand. 
   def hit_stand_fold_double(self):
     double_down = 0
     while True:
-      #if player hit blackjack on dealt hand, this skips this portion of the round for them
+      #checks if player already hit blackjack
       if self.cards == []:
         break
-      #all options are open to player first time through the loop
       elif len(self.cards) == 2 and double_down == 0:
         choice = input("{}, would you like to (h)it, (s)tand, (f)old or (d)ouble-down?:  ".format(self.name))
         while choice != "h" and choice != "hit" and choice != "s" and choice != "stand" and choice != "f" \
@@ -92,7 +89,7 @@ class Player(object):
           choice = input("That's not how you play blackjack. Would you like to (h)it or (s)tand? ")
           time.sleep(3)
       #appends random card to player.cards and prints string of player name and cards.
-      #calls hand_loss_check() to check if hand-value is over limit.  If so, resets player bet and cards.
+      #calls hand_loss_check() to check if hand-value is over limit. 
       if choice == "h" or choice == "hit":
         card = random.choice(deck.cards)
         self.cards.append(card)
@@ -114,8 +111,8 @@ class Player(object):
         print()
         time.sleep(3)
         break
-        #checks if player has enough chips to double-down and removes additional chips equal to bet
-        # and doubles player bet.  Activates double_down counter to prevent additional doubling.
+        #checks if player has enough chips to double-down.Activates double_down counter 
+        #to prevent additional doubling.
       elif choice == "d" or choice == "double-down":
         if self.chips >= self.bet:
           self.chips -= self.bet
@@ -133,7 +130,7 @@ class Player(object):
         time.sleep(2)
         break
 
-#checks if player has already busted, folded or gotten blackjack.  If not, continues.  Checks for win,
+#checks if player has already busted, folded or gotten blackjack. Checks for win,
 #draw or loss and rewards appropriately.
   def hand_win_check(self):
     global dealer
